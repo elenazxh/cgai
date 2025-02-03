@@ -23,7 +23,7 @@ float sdf_circle(vec2 p, vec2 c, float r)
 // reference: https://iquilezles.org/articles/distfunctions2d/, Box-exact
 float sdf_box( in vec2 p, float angle, in vec2 b )
 {
-    mat2 rot = mat2(cos(-angle), sin(-angle), -sin(-angle), cos(-angle));
+    mat2 rot = mat2(cos(-angle), sin(-angle), -sin(-angle), cos(-angle));  // *GLSL is column-major*
     p = rot * p;
 
     vec2 d = abs(p)-b;
@@ -44,7 +44,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord)
     float d = sdf_box(p, iTime, b);
 
     // our coloring implementation
-    vec3 color = vec3(0.0, 0.0, 0.0);
+    vec3 color = vec3(0.0, 0.0, 0.0); // *black*
 
     // strategy 1
     // color = vec3(abs(d/3.0));
@@ -61,9 +61,10 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord)
 
 	// ShaderToy coloring implementation
     color = (d > 0.0) ? vec3(0.9, 0.6, 0.3) : vec3(0.65, 0.85, 1.0);
-    color *= 1.0 - exp(-6.0 * abs(d));
-    color *= 0.8 + 0.2 * sin(100.0 * d);
-    color = mix(color, vec3(1.0), 1.0 - smoothstep(0.0, 0.01, abs(d)));
+    color *= 1.0 - exp(-6.0 * abs(d));  // *plot function in Graphtoy*
+                                             // *transition smoothly from black to specified color*
+    color *= 0.8 + 0.2 * sin(100.0 * d);  // *sine wave for iso-contours*
+    color = mix(color, vec3(1.0), 1.0 - smoothstep(0.0, 0.01, abs(d)));  // *if sdf close to 0, set color to white*
 
     fragColor = vec4(color, 1.0);
 }
