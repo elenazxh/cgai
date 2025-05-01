@@ -13,7 +13,7 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
-import { GithubIcon } from 'lucide-react';
+import { BookAIcon, GithubIcon, InfoIcon, TreesIcon } from 'lucide-react';
 import Image from 'next/image';
 
 const tutorials: { title: string; href: string; description: string }[] = [
@@ -26,6 +26,26 @@ const tutorials: { title: string; href: string; description: string }[] = [
     title: 'SDF basis',
     href: '/tutorial/sdf-basis',
     description: 'Simple 2D SDF shader',
+  },
+  {
+    title: 'Google Colab Tutorial',
+    href: '/tutorial/colab-tutorial',
+    description: 'Google Colab Tutorial',
+  },
+  {
+    title: 'Neural SDF Tutorial',
+    href: '/tutorial/neural-sdf-basis',
+    description: 'Google Colab Tutorial',
+  },
+  {
+    title: 'Pytorch Tutorial',
+    href: '/tutorial/pytorch-tutorial',
+    description: 'Pytorch Tutorial',
+  },
+  {
+    title: 'Mass Spring System',
+    href: '/tutorial/mass-spring-tutorial',
+    description: 'Mass Spring System',
   },
 ];
 
@@ -40,18 +60,60 @@ const assignments: { title: string; href: string; description: string }[] = [
     href: '/assignment/A1a_doc',
     description: 'A1a Document: SDF and Ray Marching',
   },
-];
-
-const shaderToys: { title: string; href: string; description: string }[] = [
   {
-    title: 'Raymarching - Primitives',
-    href: 'https://www.shadertoy.com/view/Xds3zN',
-    description: 'A set of raymarched primitives by Inigo Quilez',
+    title: 'Assignment 1B Demo',
+    href: '/assignment/A1b',
+    description: 'A1b Demo: Neural Implicit Surface',
   },
   {
-    title: 'More...',
-    href: '#',
-    description: 'Comming soon',
+    title: 'Assignment 1B Doc',
+    href: '/assignment/A1b_doc',
+    description: 'A1b Document: Neural Implicit Surface',
+  },
+  {
+    title: 'Assignment 2A Demo',
+    href: '/assignment/A2a',
+    description: 'A2a Demo: Volumetric Rendering',
+  },
+  {
+    title: 'Assignment 2A Doc',
+    href: '/assignment/A2a_doc',
+    description: 'A2a Document: Volumetric Rendering',
+  },
+  {
+    title: 'Assignment 2B Demo',
+    href: '/assignment/A2b',
+    description: 'A2b Demo: Neural Radiance Fields',
+  },
+  {
+    title: 'Assignment 2B Doc',
+    href: '/assignment/A2b_doc',
+    description: 'A2b Document: Neural Radiance Fields',
+  },
+  {
+    title: 'Assignment 3 Demo',
+    href: '/assignment/A3',
+    description: 'A3 Demo: Gaussian Splatting',
+  },
+  {
+    title: 'Assignment 3 Doc',
+    href: '/assignment/A3_doc',
+    description: 'A3 Document: Gaussian Splatting',
+  },
+  {
+    title: 'Assignment 4 Demo',
+    href: '/assignment/A4',
+    description: 'A4 Demo: Position-based Dynamics',
+  },
+  {
+    title: 'Assignment 4 Doc',
+    href: '/assignment/A4_doc',
+    description: 'A4 Document: Position-based Dynamics',
+  },
+  {
+    title: 'Final Project Doc',
+    href: '/assignment/Final_doc',
+    description: 'Final Project Document',
   },
 ];
 
@@ -74,7 +136,7 @@ export function NavBar() {
         <NavigationMenuItem>
           <NavigationMenuTrigger>Assignments</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+            <ul className="grid w-[400px] gap-3 p-4 md:w-[700px] md:grid-cols-4 lg:w-[800px] ">
               {assignments.map((assignment) => (
                 <ListItem
                   key={assignment.title}
@@ -87,23 +149,23 @@ export function NavBar() {
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuTrigger>ShaderToy Classic</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-              {shaderToys.map((item) => (
-                <ListItem key={item.title} title={item.title} href={item.href}>
-                  {item.description}
-                </ListItem>
-              ))}
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
+        {/* Final Project */}
+        {/* <NavigationMenuItem>
+          <Link
+            href="/assignment/Final_doc"
+            legacyBehavior
+            passHref
+          >
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              Final Project
+            </NavigationMenuLink>
+          </Link>
+        </NavigationMenuItem> */}
         <NavigationMenuItem>
           <Link href="https://github.com/cg-gatech/cgai" legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               <GithubIcon className="w-4 h-4 mr-2" />
-              Github page
+              Github Page
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
@@ -121,7 +183,34 @@ export function NavBar() {
                 width={16}
                 height={16}
               />
-              Course page
+              Canvas Page
+            </NavigationMenuLink>
+          </Link>
+        </NavigationMenuItem>
+        {/*  */}
+        <NavigationMenuItem>
+          <Link href="/reading-materials" legacyBehavior passHref>
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              <BookAIcon className="w-4 h-4 mr-2" />
+              Reading Materials
+            </NavigationMenuLink>
+          </Link>
+        </NavigationMenuItem>
+        {/*  */}
+        <NavigationMenuItem>
+          <Link href="/course-information" legacyBehavior passHref>
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              <InfoIcon className="w-4 h-4 mr-2" />
+              Course Overview
+            </NavigationMenuLink>
+          </Link>
+        </NavigationMenuItem>
+        {/*  */}
+        <NavigationMenuItem>
+          <Link href="/syllabus" legacyBehavior passHref>
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              <TreesIcon className="w-4 h-4 mr-2" />
+              Syllabus
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>

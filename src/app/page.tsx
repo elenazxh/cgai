@@ -27,7 +27,7 @@ export default function Home() {
                 CS8803/4803 CGA: Computer Graphics in AI Era
               </p>
               <p className="text-sm font-[family-name:var(--font-geist-mono)] mt-2 leading-relaxed">
-                This webpage serves as the entry point for all interactive demos based on the CGAI course starter code. Here, you can run tutorials, assignment starter code, and classical ShaderToy shaders by selecting them from the menus below. Simply save your changes and refresh the page to see your updates instantly.
+                This webpage serves as the entry point for all interactive demos based on the CGAI course starter code. Here, you can run tutorial code and assignment starter code,  access assignment documents, reading materials, and course information by selecting them from the menus below. 
               </p>
             </div>
           </div>

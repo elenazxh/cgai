@@ -1,0 +1,177 @@
+<style>
+    /* Custom styles for headings */
+    .h1-custom {
+        font-size: 2.25rem; /* equivalent to text-4xl */
+        font-weight: 700; /* equivalent to font-bold */
+        margin-bottom: 1.5rem; /* equivalent to mb-6 */
+    }
+
+    .h2-custom {
+        font-size: 1.5rem; /* equivalent to text-2xl */
+        font-weight: 600; /* equivalent to font-semibold */
+        margin-top: 1.5rem; /* equivalent to mt-6 */
+        margin-bottom: 1rem; /* equivalent to mb-4 */
+    }
+
+    .h3-custom {
+        font-size: 1.25rem; /* equivalent to text-xl */
+        font-weight: 500; /* equivalent to font-medium */
+        margin-top: 1rem; /* equivalent to mt-4 */
+        margin-bottom: 0.5rem; /* equivalent to mb-2 */
+    }
+
+    /* Styling for code elements */
+    .code-inline {
+        font-family: 'Fira Code', Consolas, 'Courier New', monospace;
+        font-size: 1.1rem;
+        font-weight: bold;
+    }
+
+    .link-inline {
+        text-decoration: underline;  /* Ensures the links are underlined */
+        color: #1d4ed8;              /* Sets the blue color for the links */
+        font-family: 'Fira Code', Consolas, 'Courier New', monospace;
+        font-size: 1.1rem;
+        font-weight: bold;
+    }
+
+    /* Fixing the problem with ul and li elements */
+    ul {
+        list-style-type: disc;  /* Ensures the default bullet style */
+        margin-left: 2rem;      /* Adds left indentation for the list */
+        padding-left: 1.5rem;   /* Adds extra padding inside the list */
+    }
+
+    li {
+        margin-bottom: 0.5rem; /* Adds space between list items */
+    }
+
+</style>
+
+<h1 class="h1-custom">
+    Pytorch Neural Network Tutorial   
+</h1>
+
+<p class="mb-4">
+    In this tutorial, we will walk you through the basic process of setting up, training, and testing a neural network created using Pytorch, 
+    a Python-based framework for building machine learning models. For this specific model example, we will be training the network to learn 
+    the behavior of a certain quadratic function based only on its knowledge of the input x and output y. This tutorial will be run through 
+    Google Colab so you can open your own Colab Notebook and follow along or experiment with the code on your own.
+</p>
+
+
+<h2 class="h2-custom">Step 1: Import the necessary packages for setting up and running our model.</h2>
+<p class="mb-4">
+    We must first import the Pytorch package (<code>torch</code>) before we can start building our neural network. We will also be using the 
+    <code>numpy</code> package to generate our training/testing data and the <code>matplotlib</code> package to plot our results.
+</p>
+<image>
+    <img src="/assignments/pytorch_tutorial_img/PytorchImports.png" alt="Step 1: Import necessary packages" width="auto" height="auto">
+</image>
+
+<h3 class="h3-custom">Step 2: Method for generating the training and testing data for the model.</h3>
+<p class="mb-4">
+    This method generates two tensors (x, y) used to represent the requested number of data samples (n). We will use this to generate both the 
+    training and testing datasets.
+</p>
+<image>
+    <img src="/assignments/pytorch_tutorial_img/PytorchDataGen.png" alt="Step 2: Generate the training/testing data" width="auto" height="auto">
+</image>
+<p class="mb-4">
+    For the x tensor, we take n samples uniformly between -5 and 5. We use the specified quadratic function to calculate the associated y-value for 
+    each x-value. We also add some extra noise to make the data more varied so the model can learn a more general trend as opposed to the exact equation.
+</p>
+
+<h3 class="h3-custom">Step 3: Create Neural Network Class</h3>
+<p class="mb-4">
+    Here, we create a class to represent the neural network, storing the layers of our network in <code>self.model</code>. The forward method dictates how 
+    the model will evaluate the input data (x), with some models potentially requiring extra data manipulation before sending the input througn the model. 
+    <br><br>
+    The model itself is made of 3 fully-connected layers to learn the trend of the data. We also include ReLU activation layers in-between to ensure the 
+    network doesn't just learn a simple linear function that fits the data the best. We want the network to model the true trend of the data, not just the 
+    best-fit line.
+</p>
+<image>
+    <img src="/assignments/pytorch_tutorial_img/PytorchNN.png" alt="Step 3: Create Neural Network Class" width="auto" height="auto">
+</image>
+
+
+<h3 class="h3-custom">Step 4: Method for Training the Neural Network</h3>
+<p class="mb-4">
+    In this method, we train the model for a specific number of epochs, where one epoch is one pass of the model over the whole training dataset. We have a 
+    few input variables that we use for this training process. The <code>criterion</code> is used as a loss function for calculating the difference between 
+    the model's output and the correct output of y. The <code>optimizer</code> is used to store and update the model's weights as they are trained to simulate 
+    the data's behavior. Finally, the <code>train_loader</code> is used to store and split the data into easy-to-process batches for the model to incrementally 
+    train on.
+</p>
+<image>
+    <img src="/assignments/pytorch_tutorial_img/PytorchTraining.png" alt="Step 4: Train the Neural Network" width="auto" height="auto">
+</image>
+<p class="mb-4">
+    In each epoch, we run through all the batches of the training data and evaluate the loss between the model's outputs and the correct outputs. We then use this 
+    loss, through <code>loss.backward()</code>, to compute how to improve the model's weights so that the model can learn from how it messed up on evaluating the 
+    output on this pass. We then step the optimizer to update the model's weights and continue to the next epoch.
+</p>
+
+<h3 class="h3-custom">Step 5: Method for Testing the Neural Network</h3>
+<p class="mb-4">
+    The testing method is very similar to the training method in structure, but instead of updating the model's weights, we track the model's loss and output data points 
+    for future visualization. We use the same <code>criterion</code> as in the training method for calculating the model's loss. However, we use the <code>test_loader</code> 
+    in this method to introduce new data to the model and see how it responds.
+</p>
+<image>
+    <img src="/assignments/pytorch_tutorial_img/PytorchTesting.png" alt="Step 5: Test the Neural Network" width="auto" height="auto">
+</image>
+<p class="mb-4">
+    We begin by setting the model to evaluation mode so that it is ready for predicting test results instead of training. We then test the model with the test data batches and 
+    keep track of the total loss as well as the predicted output throughout the process for our own future visualization.
+</p>
+
+<h3 class="h3-custom">Step 6: Set Up Necessary Model Training Components (ex. Datasets, Dataloaders, Model)</h3>
+<p class="mb-4">
+    While all the previous steps were defining the necessary methods for training and testing the model, this is where we call upon these methods and set up our initial neural network.
+    We generate the necessary training and testing data and create the datasets and dataloaders needed to organize data for the model. We then initialize our model as well as the loss 
+    function and optimizer, which are both needed for training.
+</p>
+<image>
+    <img src="/assignments/pytorch_tutorial_img/PytorchMainSetup.png" alt="Step 6: Set Up Necessary Model Training Components" width="auto" height="auto">
+</image>
+<p class="mb-4">
+    The graph that you see below is the model's evaluation of the test dataset before training. You can see how the model's predictions do not connect with the 
+    true data at all. This will change as we train the model.
+</p>
+
+<image>
+    <img src="/assignments/pytorch_tutorial_img/PytorchUntrainedResults.png" alt="Untrained results of evaluating model with test dataset" width="auto" height="auto">
+</image>
+
+<h3 class="h3-custom">Step 7: Train and Test Model and Plot Results</h3>
+<p class="mb-4">
+    Finally, we call the methods for training and testing the model. We can then plot the resulting outputs from the model and see how they follow the trend of the original data.
+</p>
+<image>
+    <img src="/assignments/pytorch_tutorial_img/PytorchTrainAndTest.png" alt="Step 7: Train and Test Model and Plot Results" width="auto" height="auto">
+</image>
+<image>
+    <img src="/assignments/pytorch_tutorial_img/PytorchTrainedResults.png" alt="Step 7: Train and Test Model and Plot Results" width="auto" height="auto">
+</image>
+<p class="mb-4">
+    Throughout this tutorial, you might have noticed the various training and testing losses being printed out. Observing the trends in loss serves as a helpful marker for if you are 
+    training your model too much or too little or if you need to reevaluate your model's structure. In this case, despite the training loss staying quite consistent, the model still 
+    performs well on the testing data. However, with more complex data or more intricate models, the model's loss can be a useful observation tool.
+</p>
+
+<h3 class="h3-custom">Potential Modifications:</h3>
+<p class="mb-4">
+    There are many different parameters at play that can change how well the model learns the data's behavior. 
+    Feel free to experiment with how changing these variables can impact the performance of the neural network.
+    These parameters include:
+    <ul>
+        <li> The sizes of the fully-connected layers in the network(Currently set to 1x32, 32x64, and 64x1) </li>
+        <li> Number of epochs trained (Currently set to 500 epochs)</li>
+        <li> Size of training and testing datasets (Currently set to 800 and 200 samples respectively)</li>
+        <li> The learning rate of the optimizer for the model (Currently set to 0.01); The learning rate represents the step size of weight optimization as the model attempts 
+            to find the best weights to represent the behavior of the provided dataset. A larger learning rate will increase speed of the model while a smaller learning will 
+            increase the accuracy of the model.</li>
+    </ul>
+</p>
