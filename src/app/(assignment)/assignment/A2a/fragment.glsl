@@ -240,21 +240,19 @@ vec4 volumeRendering(vec3 ro, vec3 rd, float near, float far, int n_samples)
 
         //// your implementation starts
 
-        
+        /* default rendering
         vec4 sdfSample = readSDFVolume(p - vec3(-2.0, 0.0, 0.0));
         vec4 ctSample = readCTVolume(p - vec3(2.0, 0.0, 0.0));
 
         float sigma = sdfSample.a + ctSample.a;
         vec3 c_i = sdfSample.rgb + ctSample.rgb;
-        
+        */ 
 
         // Cloud Volume Rendering
-        /*
         vec4 moonSample = readMoonVolume(p - vec3(0., 0.85,0.));
         vec4 cloudSample = readCloudVolume(p);
         float sigma = moonSample.a + cloudSample.a;
         vec3 c_i = (moonSample.rgb * moonSample.a + cloudSample.rgb * cloudSample.a) / max(sigma, 0.0001);
-        */
 
         color += transmittance * (1.0 - exp(-sigma * stepSize)) * c_i;
         transmittance *= exp(-sigma * stepSize);
